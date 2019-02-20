@@ -10,5 +10,7 @@ type EC2MultiRegionAddressTranslator struct {
 }
 
 func (translator EC2MultiRegionAddressTranslator) Translate(addr net.IP, port int) (net.IP, int) {
-	return net.ParseIP("10.10.10.10"), 1
-}
+	hostname, _ := net.LookupAddr(addr.String())
+	privateip, _ := net.LookupHost(hostname[0])
+	return net.ParseIP(privateip[0]), port
+} 
